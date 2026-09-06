@@ -12,7 +12,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>C09A0890-0791-4809-B02F-6468BE39BDEA</string>
+				<string>9AB1A6C8-C2EF-4EDD-A567-086412593815</string>
 				<key>WFTextActionText</key>
 				<dict>
 					<key>Value</key>
@@ -45,7 +45,7 @@
 						<key>OutputName</key>
 						<string>Text</string>
 						<key>OutputUUID</key>
-						<string>C09A0890-0791-4809-B02F-6468BE39BDEA</string>
+						<string>9AB1A6C8-C2EF-4EDD-A567-086412593815</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -64,9 +64,9 @@
 	<key>WFWorkflowIcon</key>
 	<dict>
 		<key>WFWorkflowIconGlyphNumber</key>
-		<integer>61440</integer>
+		<integer>61699</integer>
 		<key>WFWorkflowIconStartColor</key>
-		<integer>4282601983</integer>
+		<integer>3903204351</integer>
 	</dict>
 	<key>WFWorkflowImportQuestions</key>
 	<array/>

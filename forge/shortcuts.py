@@ -20,8 +20,21 @@ import uuid
 
 OBJ = "￼"  # object-replacement char an attachment binds to
 
-RED = 4282601983       # verified palette value
-DEFAULT_GLYPH = 61440  # 0xF000, the generic default
+# icon_color is RGBA packed into a 32-bit int, so any colour is computable:
+#   rgba("#E8A62B") -> 3903204351
+# icon_glyph is an opaque enum with no public table -- each value has to be
+# captured by setting it in the app and reading it back off a shared record.
+RED = 4282601983            # #FF4351, Shortcuts' red
+AMBER = 3903204351          # #E8A62B, the install page's accent
+BLUE = 463140863            # #1B9AF7, captured from a real shortcut
+DEFAULT_GLYPH = 61440       # 0xF000, the generic default
+GLYPH_CAPTURED = 61699      # 0xF103, captured -- awaiting a name
+
+
+def rgba(hex_colour):
+    """#RRGGBB -> the integer Shortcuts stores in icon_color."""
+    h = hex_colour.lstrip("#")
+    return int(h, 16) << 8 | 0xFF
 
 
 def uid():
@@ -132,12 +145,12 @@ WEB = ("WFSafariWebPageContentItem", "WFURLContentItem")
 SHORTCUTS = {
     "View Archived": {
         "description": "Opens the newest archive.today snapshot of any webpage",
-        "color": RED, "glyph": DEFAULT_GLYPH, "input_types": WEB,
+        "color": AMBER, "glyph": GLYPH_CAPTURED, "input_types": WEB,
         "actions": view_archived,
     },
     "Cite This Page": {
         "description": "Copies an MLA, APA or Chicago citation for the current page",
-        "color": RED, "glyph": DEFAULT_GLYPH, "input_types": WEB,
+        "color": BLUE, "glyph": GLYPH_CAPTURED, "input_types": WEB,
         "actions": cite_this_page,
     },
 }
