@@ -5,8 +5,15 @@ Encoding rules learned the hard way, both silent failures:
   * Attachments inside a text action's attachmentsByRange are BARE dicts.
     The {"Value": ..., "WFSerializationType": "WFTextTokenAttachment"}
     wrapper is only for a parameter that is entirely one attachment.
-  * Format Date returns empty with WFDateFormatStyle "Custom". Raw date
-    tokens work; use those until the right encoding is verified.
+  * Format Date's WFDate parameter is a WFTextTokenString containing one
+    attachment -- NOT a bare WFTextTokenAttachment. Wrapping it as an
+    attachment leaves the field unbound and the action outputs nothing.
+  * Choose from Menu is three entries sharing a GroupingIdentifier:
+    WFControlFlowMode 0 opens, 1 per case (with WFMenuItemTitle), 2 closes.
+    The opening entry carries no list of items; the cases define them.
+  * Get Item from List and Split Text default to First Item and New Lines,
+    so neither needs parameters for those. An unparameterised Get Item from
+    List placed first implicitly receives Shortcut Input.
 """
 import uuid
 
@@ -68,14 +75,47 @@ def view_archived():
 
 
 def cite_this_page():
-    name, text = uid(), uid()
+    """Citation in a chosen style, copied to the clipboard.
+
+    Get Item from List runs first with no parameters, so it receives Shortcut
+    Input implicitly and collapses it to one item -- some sites' share sheets
+    offer both a Safari web page and a URL, which otherwise doubles everything.
+    """
+    first, name, d_mla, d_us, group = uid(), uid(), uid(), uid(), uid()
+    url = r_out(first, "Item")
+    title = r_out(name, "Name")
+    mla_date = r_out(d_mla, "Formatted Date")
+    us_date = r_out(d_us, "Formatted Date")
+
+    def fmt(u, pattern):
+        return act("is.workflow.actions.format.date", UUID=u,
+                   WFDate=text_token([r_now()]),
+                   WFDateFormatStyle="Custom", WFDateFormat=pattern)
+
+    def case(label, parts):
+        out = uid()
+        return [
+            act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,
+                WFControlFlowMode=1, WFMenuItemTitle=label),
+            act("is.workflow.actions.gettext", UUID=out,
+                WFTextActionText=text_token(parts)),
+            act("is.workflow.actions.setclipboard", WFInput=attach(r_out(out, "Text"))),
+            act("is.workflow.actions.showresult",
+                Text=text_token([r_out(out, "Text")])),
+        ]
+
     return [
-        act("is.workflow.actions.getitemname", UUID=name, WFInput=attach(r_input())),
-        act("is.workflow.actions.gettext", UUID=text,
-            WFTextActionText=text_token([
-                '"', r_out(name, "Name"), '." ', r_input(), '. Accessed ', r_now(), '.'])),
-        act("is.workflow.actions.setclipboard", WFInput=attach(r_out(text, "Text"))),
-        act("is.workflow.actions.showresult", Text=text_token([r_out(text, "Text")])),
+        act("is.workflow.actions.getitemfromlist", UUID=first),
+        act("is.workflow.actions.getitemname", UUID=name, WFInput=attach(url)),
+        fmt(d_mla, "d MMMM yyyy"),
+        fmt(d_us, "MMMM d, yyyy"),
+        act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,
+            WFControlFlowMode=0),
+        *case("MLA", ['"', title, '." ', url, '. Accessed ', mla_date, '.']),
+        *case("APA", [title, '. Retrieved ', us_date, ', from ', url]),
+        *case("Chicago", ['"', title, '." Accessed ', us_date, '. ', url, '.']),
+        act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,
+            WFControlFlowMode=2, UUID=uid()),
     ]
 
 
@@ -88,7 +128,7 @@ SHORTCUTS = {
         "actions": view_archived,
     },
     "Cite This Page": {
-        "description": "Copies a citation for the current page to the clipboard",
+        "description": "Copies an MLA, APA or Chicago citation for the current page",
         "color": RED, "glyph": DEFAULT_GLYPH, "input_types": WEB,
         "actions": cite_this_page,
     },

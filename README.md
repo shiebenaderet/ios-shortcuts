@@ -14,7 +14,7 @@ tap an Install link on an iPhone and Shortcuts opens with an Add preview.
 | Shortcut | What it does | Install |
 |---|---|---|
 | [View Archived](#view-archived) | Opens the newest archive.today snapshot of any webpage | [Install](dist/View%20Archived.shortcut) |
-| [Cite This Page](#cite-this-page) | Copies a citation for the current page to the clipboard | [Install](dist/Cite%20This%20Page.shortcut) |
+| [Cite This Page](#cite-this-page) | Copies an MLA, APA or Chicago citation for the current page | [Install](dist/Cite%20This%20Page.shortcut) |
 <!-- CATALOG:END -->
 
 ---
@@ -55,16 +55,13 @@ share sheet or a copied link.
 "<Page title>." <URL>. Accessed <date>.
 ```
 
+**Style picker** — running it offers MLA, APA or Chicago and copies that format.
+
 **Known limitations**
 
-- The accessed date includes a time (`Sep 6, 2026 at 16:31`) rather than MLA's
-  `6 Sept. 2026`. `Format Date` returns empty with a custom style, so the raw
-  date token is used instead.
 - The page title still carries the site's own suffix (`… | Snopes.com`). MLA
-  wants the title and the container separately.
-- Some sites' share sheets pass both a Safari web page *and* a URL item, so the
-  title and URL can appear twice. Needs collapsing to a single item.
-- No style picker yet; the format is MLA-ish and fixed.
+  wants the title and the container separately; needs Split Text with a custom
+  separator, whose encoding isn't captured yet.
 
 ---
 
