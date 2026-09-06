@@ -10,7 +10,8 @@ Encoding rules learned the hard way, both silent failures:
     attachment leaves the field unbound and the action outputs nothing.
   * Choose from Menu is three entries sharing a GroupingIdentifier:
     WFControlFlowMode 0 opens, 1 per case (with WFMenuItemTitle), 2 closes.
-    The opening entry carries no list of items; the cases define them.
+    The opening entry MUST carry WFMenuItems listing the titles -- without it
+    the app shows its "One"/"Two" placeholders and ignores the case blocks.
   * Split Text takes WFTextSeparator "Custom" plus WFTextCustomSeparator.
   * Get Item from List and Split Text default to First Item and New Lines,
     so neither needs parameters for those. An unparameterised Get Item from
@@ -112,6 +113,8 @@ def cite_this_page():
                    WFDate=text_token([r_now()]),
                    WFDateFormatStyle="Custom", WFDateFormat=pattern)
 
+    styles = ["MLA", "APA", "Chicago"]
+
     def case(label, parts):
         out = uid()
         return [
@@ -139,7 +142,8 @@ def cite_this_page():
         fmt(d_mla, "d MMMM yyyy"),
         fmt(d_us, "MMMM d, yyyy"),
         act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,
-            WFControlFlowMode=0),
+            WFControlFlowMode=0, WFMenuPrompt="Citation style",
+            WFMenuItems=styles),
         *case("MLA", ['"', title, '." ', url, '. Accessed ', mla_date, '.']),
         *case("APA", [title, '. Retrieved ', us_date, ', from ', url]),
         *case("Chicago", ['"', title, '." Accessed ', us_date, '. ', url, '.']),
