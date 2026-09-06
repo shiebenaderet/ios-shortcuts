@@ -4,13 +4,18 @@ A growing collection of iOS Shortcuts.
 
 **[➜ Install page](https://shiebenaderet.github.io/ios-shortcuts/)** — tap-to-install from any iPhone.
 
-Each shortcut installs via an iCloud link (iOS only accepts signed shortcuts, so downloading files from this repo won't work — use the links).
+Each shortcut is a signed `.shortcut` file committed to this repo. iOS only
+installs *signed* shortcuts, but a signed file served over the web is fine —
+tap an Install link on an iPhone and Shortcuts opens with an Add preview.
 
 ## Catalog
 
+<!-- CATALOG:START -->
 | Shortcut | What it does | Install |
 |---|---|---|
-| [View Archived](#view-archived) | Opens the newest archive.today snapshot of any webpage | [iCloud link](https://www.icloud.com/shortcuts/52aa5c15de554744956390e0f6287ccc) |
+| [View Archived](#view-archived) | Opens the newest archive.today snapshot of any webpage | [Install](dist/View%20Archived.shortcut) |
+| [Cite This Page](#cite-this-page) | Copies a citation for the current page to the clipboard | [Install](dist/Cite%20This%20Page.shortcut) |
+<!-- CATALOG:END -->
 
 ---
 
@@ -39,6 +44,30 @@ https://archive.ph/newest/<your URL>
 
 ---
 
+## Cite This Page
+
+Copies a citation for the current page to the clipboard and shows it, from the
+share sheet or a copied link.
+
+**How it works** — reads the page's name, then builds:
+
+```
+"<Page title>." <URL>. Accessed <date>.
+```
+
+**Known limitations**
+
+- The accessed date includes a time (`Sep 6, 2026 at 16:31`) rather than MLA's
+  `6 Sept. 2026`. `Format Date` returns empty with a custom style, so the raw
+  date token is used instead.
+- The page title still carries the site's own suffix (`… | Snopes.com`). MLA
+  wants the title and the container separately.
+- Some sites' share sheets pass both a Safari web page *and* a URL item, so the
+  title and URL can appear twice. Needs collapsing to a single item.
+- No style picker yet; the format is MLA-ish and fixed.
+
+---
+
 <!-- Template for new entries:
 
 ## Shortcut Name
@@ -54,24 +83,44 @@ One-line description.
 Then add a row to the Catalog table above.
 -->
 
-## Publishing a shortcut
+## Adding a shortcut
 
-iOS only installs *signed* shortcuts, so distribution always runs through an iCloud
-link — a `.shortcut` file committed here can't be installed from GitHub.
+Shortcuts are generated, not hand-built. Define one in `forge/shortcuts.py`,
+then:
 
-1. On iPhone or iPad: **Shortcuts** app → long-press the shortcut → **Share** →
-   **Copy iCloud Link**. (iCloud Drive must be on; the first share signs the shortcut.)
-2. Paste the resulting `https://www.icloud.com/shortcuts/...` URL into **both** places:
-   - the `Install` cell of the Catalog table above
-   - the matching `<a class="row" href="...">` in `index.html`
-3. Commit and push. GitHub Pages redeploys in about a minute.
+```sh
+python3 forge/build.py
+git commit -am "Add <name>" && git push
+```
 
-Editing a shortcut and re-sharing it produces a **new** link — the old link keeps
-serving the old version, so replace it in both spots each time.
+`build.py` writes a signed file to `dist/` and rewrites the catalog table above
+and the matching rows in `index.html`, so the two can't drift apart. Signing uses
+macOS's `shortcuts sign --mode anyone`, which is the same signing mode behind an
+iCloud share link.
+
+The filename becomes the shortcut's name on import — a `.shortcut` file carries
+no name field of its own.
+
+### Encoding notes
+
+Two mistakes that fail *silently*, both found by diffing generated output against
+a real Apple-written shortcut:
+
+- Attachments inside a text action's `attachmentsByRange` are **bare** dicts. The
+  `{"Value": …, "WFSerializationType": "WFTextTokenAttachment"}` wrapper applies
+  only when an entire parameter is one attachment.
+- `WFWorkflowMinimumClientVersion` is a **feature gate**. Declare a version older
+  than an action you use and that action is quietly skipped, passing an empty
+  value downstream. Pin it to a value read from a genuine shortcut.
+
+`Format Date` with `WFDateFormatStyle: "Custom"` returns empty and is currently
+avoided; raw date tokens work.
 
 ## Repo files
 
 - `index.html` — the install page, served by GitHub Pages from `main` at the repo root
+- `forge/` — shortcut definitions and the build script
+- `dist/` — generated signed `.shortcut` files (build output, but committed so the page can serve them)
 - `icon-1024.png` / `icon.svg` — catalog icon, also usable as a custom Home Screen icon
 
 ## License
