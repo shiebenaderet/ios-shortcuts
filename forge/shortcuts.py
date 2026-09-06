@@ -24,17 +24,21 @@ OBJ = "￼"  # object-replacement char an attachment binds to
 #   rgba("#E8A62B") -> 3903204351
 # icon_glyph is an opaque enum with no public table -- each value has to be
 # captured by setting it in the app and reading it back off a shared record.
-RED = 4282601983            # #FF4351, Shortcuts' red
-AMBER = 3903204351          # #E8A62B, the install page's accent
-BLUE = 463140863            # #1B9AF7, captured from a real shortcut
+# The field is a SIGNED 32-bit int. A value above 2**31 makes Shortcuts fail to
+# parse the icon and silently discard every action, importing an empty shortcut.
+RED = -12365313             # #FF4351, captured
+BLUE = 463140863            # #1B9AF7, captured
 DEFAULT_GLYPH = 61440       # 0xF000, the generic default
 GLYPH_CAPTURED = 61699      # 0xF103, captured -- awaiting a name
 
 
 def rgba(hex_colour):
-    """#RRGGBB -> the integer Shortcuts stores in icon_color."""
-    h = hex_colour.lstrip("#")
-    return int(h, 16) << 8 | 0xFF
+    """#RRGGBB -> the signed 32-bit int Shortcuts stores in icon_color."""
+    value = int(hex_colour.lstrip("#"), 16) << 8 | 0xFF
+    return value - (1 << 32) if value >= (1 << 31) else value
+
+
+AMBER = rgba("#E8A62B")     # the install page's accent
 
 
 def uid():
