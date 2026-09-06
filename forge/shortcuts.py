@@ -95,9 +95,10 @@ def view_archived():
 def cite_this_page():
     """Citation in a chosen style, copied to the clipboard.
 
-    Get Item from List runs first with no parameters, so it receives Shortcut
-    Input implicitly and collapses it to one item -- some sites' share sheets
-    offer both a Safari web page and a URL, which otherwise doubles everything.
+    Get Item from List collapses the input to one item -- some sites' share
+    sheets offer both a Safari web page and a URL, which otherwise doubles
+    everything. Its input is passed explicitly: relying on the first action
+    implicitly receiving Shortcut Input produced an empty chain.
     """
     first, name, split, short, d_mla, d_us, group = (
         uid(), uid(), uid(), uid(), uid(), uid(), uid())
@@ -124,14 +125,17 @@ def cite_this_page():
         ]
 
     return [
-        act("is.workflow.actions.getitemfromlist", UUID=first),
+        act("is.workflow.actions.getitemfromlist", UUID=first,
+            WFInput=attach(r_input())),
         act("is.workflow.actions.getitemname", UUID=name, WFInput=attach(url)),
         # Most page titles append the site name: "Headline | Snopes.com".
         # Splitting on " | " and keeping the first part drops it without
         # needing a separate trim, since the spaces go with the separator.
         act("is.workflow.actions.text.split", UUID=split,
+            WFInput=attach(r_out(name, "Name")),
             WFTextSeparator="Custom", WFTextCustomSeparator=" | "),
-        act("is.workflow.actions.getitemfromlist", UUID=short),
+        act("is.workflow.actions.getitemfromlist", UUID=short,
+            WFInput=attach(r_out(split, "Split Text"))),
         fmt(d_mla, "d MMMM yyyy"),
         fmt(d_us, "MMMM d, yyyy"),
         act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,
