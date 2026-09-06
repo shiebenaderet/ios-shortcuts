@@ -11,6 +11,7 @@ Encoding rules learned the hard way, both silent failures:
   * Choose from Menu is three entries sharing a GroupingIdentifier:
     WFControlFlowMode 0 opens, 1 per case (with WFMenuItemTitle), 2 closes.
     The opening entry carries no list of items; the cases define them.
+  * Split Text takes WFTextSeparator "Custom" plus WFTextCustomSeparator.
   * Get Item from List and Split Text default to First Item and New Lines,
     so neither needs parameters for those. An unparameterised Get Item from
     List placed first implicitly receives Shortcut Input.
@@ -81,9 +82,10 @@ def cite_this_page():
     Input implicitly and collapses it to one item -- some sites' share sheets
     offer both a Safari web page and a URL, which otherwise doubles everything.
     """
-    first, name, d_mla, d_us, group = uid(), uid(), uid(), uid(), uid()
+    first, name, split, short, d_mla, d_us, group = (
+        uid(), uid(), uid(), uid(), uid(), uid(), uid())
     url = r_out(first, "Item")
-    title = r_out(name, "Name")
+    title = r_out(short, "Item")
     mla_date = r_out(d_mla, "Formatted Date")
     us_date = r_out(d_us, "Formatted Date")
 
@@ -107,6 +109,12 @@ def cite_this_page():
     return [
         act("is.workflow.actions.getitemfromlist", UUID=first),
         act("is.workflow.actions.getitemname", UUID=name, WFInput=attach(url)),
+        # Most page titles append the site name: "Headline | Snopes.com".
+        # Splitting on " | " and keeping the first part drops it without
+        # needing a separate trim, since the spaces go with the separator.
+        act("is.workflow.actions.text.split", UUID=split,
+            WFTextSeparator="Custom", WFTextCustomSeparator=" | "),
+        act("is.workflow.actions.getitemfromlist", UUID=short),
         fmt(d_mla, "d MMMM yyyy"),
         fmt(d_us, "MMMM d, yyyy"),
         act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,

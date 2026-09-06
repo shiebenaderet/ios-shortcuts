@@ -59,9 +59,11 @@ share sheet or a copied link.
 
 **Known limitations**
 
-- The page title still carries the site's own suffix (`… | Snopes.com`). MLA
-  wants the title and the container separately; needs Split Text with a custom
-  separator, whose encoding isn't captured yet.
+- The site name is dropped rather than used as MLA's container: the title is
+  split on `" | "` and only the first part kept. Using the second part as the
+  container needs Get Item from List set to Last Item, whose encoding isn't
+  captured yet.
+- Titles that separate with a dash rather than a pipe keep their suffix.
 
 ---
 
