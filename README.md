@@ -10,7 +10,7 @@ Each shortcut installs via an iCloud link (iOS only accepts signed shortcuts, so
 
 | Shortcut | What it does | Install |
 |---|---|---|
-| [View Archived](#view-archived) | Opens the newest archive.today snapshot of any webpage | [iCloud link](PASTE-ICLOUD-LINK) |
+| [View Archived](#view-archived) | Opens the newest archive.today snapshot of any webpage | [iCloud link](https://www.icloud.com/shortcuts/52aa5c15de554744956390e0f6287ccc) |
 
 ---
 
