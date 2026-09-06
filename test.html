@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install test — not the catalog</title>
+<style>
+  :root { --ink:#1B2A3B; --soft:#51617A; --ground:#F3F5F7; --card:#fff;
+          --line:#DDE3EA; --amber:#E8A62B; --slate:#22364C; }
+  * { box-sizing:border-box; margin:0; }
+  body { font:16px/1.55 system-ui,-apple-system,sans-serif; background:var(--ground);
+         color:var(--ink); padding:32px 20px 64px; }
+  main { max-width:520px; margin:0 auto; }
+  .warn { background:#FFF4DC; border:1px solid #E8C97A; border-radius:12px;
+          padding:12px 14px; font-size:.92rem; margin-bottom:28px; }
+  h1 { font-size:1.4rem; margin-bottom:6px; }
+  .sub { color:var(--soft); margin-bottom:28px; }
+  a.btn { display:block; background:var(--card); border:1px solid var(--line);
+          border-radius:16px; padding:18px 18px; margin-top:14px;
+          text-decoration:none; color:inherit; }
+  a.btn strong { display:block; font-size:1.1rem; }
+  a.btn span { color:var(--soft); font-size:.9rem; }
+  a.btn em { display:inline-block; margin-top:10px; background:var(--amber);
+             color:var(--slate); font-style:normal; font-weight:700;
+             padding:8px 20px; border-radius:999px; font-size:.9rem; }
+  ol { margin:28px 0 0 20px; color:var(--soft); font-size:.93rem; }
+  ol li { margin-bottom:8px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="warn"><strong>Test page.</strong> Not the catalog &mdash; nothing here is
+  confirmed working yet. The real install page is
+  <a href="./">shiebenaderet.github.io/ios-shortcuts</a>.</div>
+
+  <h1>Signed-file install test</h1>
+  <p class="sub">Tap #1 first, then #2. Report what each one does.</p>
+
+  <a class="btn" href="dist/View%20Archived.shortcut">
+    <strong>1. View Archived <span>(control)</span></strong>
+    <span>Re-signed from Apple&rsquo;s own file. Tests only whether iOS accepts a
+    downloaded signed shortcut.</span>
+    <em>Tap to install</em>
+  </a>
+
+  <a class="btn" href="dist/Cite%20This%20Page.shortcut">
+    <strong>2. Cite This Page <span>(authored)</span></strong>
+    <span>Built from scratch. Tests file install <em style="all:unset;font-style:italic">and</em>
+    whether the generated shortcut is valid.</span>
+    <em>Tap to install</em>
+  </a>
+
+  <ol>
+    <li>Shortcuts opens with an &ldquo;Add Shortcut&rdquo; preview &rarr; works.</li>
+    <li>Downloads to Files, and tapping it there opens Shortcuts &rarr; works, one extra tap.</li>
+    <li>Nothing happens, or an error &rarr; this path is closed.</li>
+    <li>If #2 installs, run it from Safari&rsquo;s share sheet on any article &mdash;
+    it should copy and show a citation.</li>
+  </ol>
+</main>
+</body>
+</html>
