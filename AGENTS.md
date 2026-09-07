@@ -168,6 +168,21 @@ Signed files are served from GitHub Pages and install by tapping on an iPhone �
 verified. iCloud links are unnecessary, and are worse: every share mints a **new**
 URL while old links keep serving the old version forever.
 
+## Next capture
+
+Two unknowns are blocked on one shared shortcut. To make it: new shortcut →
+Shortcut Details (i) → **Show in Share Sheet** on (do this first, or Shortcut
+Input is not offered) → add **Get Article from Web Page** and set its input to
+the **Shortcut Input** variable → add **If** and leave the condition alone →
+**Share > Copy iCloud Link**.
+
+Wiring the input is the point: an unwired action serializes to just a UUID.
+
+That unblocks **Read Aloud** (Get Article, then Speak Text) and fixes the
+citation's container bug — a title with no `" | "` splits into one item, so
+first and last match and the site repeats the headline. An If comparing the
+split's item count to 1 solves it.
+
 ## Known-unverified
 
 - `If` / `Otherwise` / `End If` — control flow, presumably shaped like Choose
