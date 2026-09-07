@@ -41,6 +41,15 @@ one capture then settled four actions at once.
 with three candidate key names and a Show Result listing all three outputs
 resolves in a single run what three sequential guesses would not.
 
+For an action with no visible output, give each candidate a *distinguishable side
+effect* instead — three Speak Text variants each saying a different word
+identified its input key by ear in one run.
+
+A probe can only rank spellings you supply. If every candidate comes back empty,
+suspect the **identifier**, not the key: a wrong key still leaves a real action
+that runs and returns nothing, but a wrong identifier means no action at all. Only
+a capture settles that.
+
 ## File format
 
 A `.shortcut` is a binary plist. Signed output is an `AEA1` container.
@@ -120,6 +129,7 @@ you; an action authored here with no input parameter simply has no input.
 | Date (current) | `is.workflow.actions.date` | — | `Date` |
 | Copy to Clipboard | `is.workflow.actions.setclipboard` | `WFInput` (shape 2) | — |
 | Show Result | `is.workflow.actions.showresult` | `Text` (shape 3) | — |
+| Speak Text | `is.workflow.actions.speaktext` | `WFText` (shape 3) | — |
 | Choose from Menu | `is.workflow.actions.choosefrommenu` | — | `Menu Result` |
 
 Extra parameters:
@@ -165,5 +175,5 @@ URL while old links keep serving the old version forever.
 - `Get Article from Web Page` — `is.workflow.actions.getarticle` produced nothing
   with `WFWebPage`, `WFInput` or `WFURL`, so either the identifier or the key is
   wrong. Needs a capture.
-- `Replace Text`, `Match Text`, `Speak Text`.
+- `Replace Text`, `Match Text`.
 - Whether arbitrary (non-palette) icon colours render exactly as specified.
