@@ -23,6 +23,8 @@ CLIENT_VERSION = "5037.0.17"
 MIN_VERSION = 1113
 
 sys.path.insert(0, os.path.join(ROOT, "forge"))
+from glyphs import GLYPHS  # noqa: E402
+from icons import render  # noqa: E402
 from shortcuts import SHORTCUTS  # noqa: E402
 
 
@@ -33,7 +35,7 @@ def make_plist(spec):
         "WFWorkflowMinimumClientVersionString": str(MIN_VERSION),
         "WFQuickActionSurfaces": [],
         "WFWorkflowIcon": {"WFWorkflowIconStartColor": spec["color"],
-                           "WFWorkflowIconGlyphNumber": spec["glyph"]},
+                           "WFWorkflowIconGlyphNumber": GLYPHS[spec["glyph"]]},
         "WFWorkflowTypes": ["ActionExtension"],
         "WFWorkflowInputContentItemClasses": list(spec["input_types"]),
         "WFWorkflowOutputContentItemClasses": [],
@@ -72,6 +74,20 @@ def replace_block(path, body):
         fh.write(text[:a + len(start)] + "\n" + body + text[b:])
 
 
+def slug(name):
+    return name.lower().replace(" ", "-")
+
+
+def write_icon(name, spec):
+    """Draw the install-page icon so the web page matches the app's glyph."""
+    icons = os.path.join(ROOT, "icons")
+    os.makedirs(icons, exist_ok=True)
+    path = os.path.join(icons, f"{slug(name)}.svg")
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(render(spec["glyph"], spec["color"], name))
+    return f"icons/{slug(name)}.svg"
+
+
 def href(name):
     return "dist/" + urllib.parse.quote(f"{name}.shortcut")
 
@@ -80,6 +96,7 @@ def main():
     built = []
     for name, spec in SHORTCUTS.items():
         path = build_one(name, spec)
+        write_icon(name, spec)
         built.append(name)
         print(f"  {os.path.relpath(path, ROOT)}  ({os.path.getsize(path)} bytes)")
 
@@ -91,7 +108,7 @@ def main():
 
     cards = "\n".join(
         f'  <a class="row" href="{href(n)}">\n'
-        f'    <img src="icon-1024.png" alt="">\n'
+        f'    <img src="icons/{slug(n)}.svg" alt="">\n'
         f'    <div class="meta">\n'
         f'      <strong>{n}</strong>\n'
         f'      <span>{SHORTCUTS[n]["description"]}</span>\n'

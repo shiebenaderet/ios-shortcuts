@@ -150,7 +150,10 @@ avoided; raw date tokens work.
 - `index.html` — the install page, served by GitHub Pages from `main` at the repo root
 - `forge/` — shortcut definitions, the build script, and a glyph-name table
 - `dist/` — generated signed `.shortcut` files (build output, but committed so the page can serve them)
-- `icon-1024.png` / `icon.svg` — catalog icon, also usable as a custom Home Screen icon
+- `icons/` — generated per-shortcut install-page icons, drawn to match each
+  shortcut's glyph and colour
+- `icon-1024.png` / `icon.svg` — the catalog's own icon, also usable as a custom
+  Home Screen icon
 
 ## License
 

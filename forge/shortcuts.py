@@ -26,8 +26,6 @@ Encoding rules learned the hard way, both silent failures:
 """
 import uuid
 
-from glyphs import GLYPHS
-
 OBJ = "￼"  # object-replacement char an attachment binds to
 
 # icon_color is RGBA packed into a 32-bit int, so any colour is computable:
@@ -182,22 +180,22 @@ WEB = ("WFSafariWebPageContentItem", "WFURLContentItem")
 SHORTCUTS = {
     "View Archived": {
         "description": "Opens the newest archive.today snapshot of any webpage",
-        "color": AMBER, "glyph": GLYPHS["archive"], "input_types": WEB,
+        "color": AMBER, "glyph": "archive", "input_types": WEB,
         "actions": open_with_prefix("https://archive.ph/newest/"),
     },
     "Save to Wayback": {
         "description": "Archives the current page in the Wayback Machine",
-        "color": rgba("#3EA34B"), "glyph": GLYPHS["uploadArrow"], "input_types": WEB,
+        "color": rgba("#3EA34B"), "glyph": "uploadArrow", "input_types": WEB,
         "actions": open_with_prefix("https://web.archive.org/save/"),
     },
     "Plain Text View": {
         "description": "Opens the page as clean text, stripped of nav and ads",
-        "color": rgba("#8B5CF6"), "glyph": GLYPHS["newspaper"], "input_types": WEB,
+        "color": rgba("#8B5CF6"), "glyph": "newspaper", "input_types": WEB,
         "actions": open_with_prefix("https://r.jina.ai/"),
     },
     "Cite This Page": {
         "description": "Copies an MLA, APA or Chicago citation for the current page",
-        "color": BLUE, "glyph": GLYPHS["doubleQuote"], "input_types": WEB,
+        "color": BLUE, "glyph": "doubleQuote", "input_types": WEB,
         "actions": cite_this_page,
     },
 }
