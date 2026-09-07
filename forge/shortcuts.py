@@ -116,10 +116,11 @@ def cite_this_page():
     everything. Its input is passed explicitly: relying on the first action
     implicitly receiving Shortcut Input produced an empty chain.
     """
-    first, name, nl, one_name, pipe, short, d_mla, d_us, group = (
-        uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid())
+    first, name, nl, one_name, pipe, short, site, d_mla, d_us, group = (
+        uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid())
     url = r_out(first, "Item from List")
     title = r_out(short, "Item from List")
+    container = r_out(site, "Item from List")
     mla_date = r_out(d_mla, "Formatted Date")
     us_date = r_out(d_us, "Formatted Date")
 
@@ -162,14 +163,21 @@ def cite_this_page():
             WFTextSeparator="Custom", WFTextCustomSeparator=" | "),
         act("is.workflow.actions.getitemfromlist", UUID=short,
             WFInput=attach(r_out(pipe, "Split Text"))),
+        # ...and the last part is usually the site, which MLA calls the container.
+        act("is.workflow.actions.getitemfromlist", UUID=site,
+            WFInput=attach(r_out(pipe, "Split Text")),
+            WFItemSpecifier="Last Item"),
         fmt(d_mla, "d MMMM yyyy"),
         fmt(d_us, "MMMM d, yyyy"),
         act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,
             WFControlFlowMode=0, WFMenuPrompt="Citation style",
             WFMenuItems=styles),
-        *case("MLA", ['"', title, '." ', url, '. Accessed ', mla_date, '.']),
-        *case("APA", [title, '. Retrieved ', us_date, ', from ', url]),
-        *case("Chicago", ['"', title, '." Accessed ', us_date, '. ', url, '.']),
+        *case("MLA", ['"', title, '." ', container, ', ', url,
+                      '. Accessed ', mla_date, '.']),
+        *case("APA", [title, '. ', container, '. Retrieved ', us_date,
+                      ', from ', url]),
+        *case("Chicago", ['"', title, '." ', container, '. Accessed ', us_date,
+                          '. ', url, '.']),
         act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,
             WFControlFlowMode=2, UUID=uid()),
     ]

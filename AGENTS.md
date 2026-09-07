@@ -129,7 +129,9 @@ Extra parameters:
 - **Format Date** — `WFDateFormatStyle: "Custom"` with `WFDateFormat` (ICU
   pattern, e.g. `d MMMM yyyy`). Built-ins: Short, Medium, Long, Relative,
   RFC 2822, ISO 8601. `M` is month, `m` is minute.
-- **Get Item from List** — no parameters means First Item.
+- **Get Item from List** — no parameters means First Item. `WFItemSpecifier:
+  "Last Item"` takes the last; `WFItemSpecifier: "Item At Index"` with
+  `WFItemIndex` takes a given one (1-based). Both verified.
 - **Choose from Menu** — three entries sharing a `GroupingIdentifier`:
   `WFControlFlowMode` `0` opens (and **must** carry `WFMenuItems` listing the
   titles, plus optional `WFMenuPrompt`), `1` per case with `WFMenuItemTitle`,
@@ -158,7 +160,10 @@ URL while old links keep serving the old version forever.
 
 ## Known-unverified
 
-- `Get Item from List` set to **Last Item** — needed to use a site name as MLA's
-  container.
-- `Replace Text`, `Match Text`, `Get Article from Web Page`, `Speak Text`.
+- `If` / `Otherwise` / `End If` — control flow, presumably shaped like Choose
+  from Menu with a `GroupingIdentifier` and `WFControlFlowMode`.
+- `Get Article from Web Page` — `is.workflow.actions.getarticle` produced nothing
+  with `WFWebPage`, `WFInput` or `WFURL`, so either the identifier or the key is
+  wrong. Needs a capture.
+- `Replace Text`, `Match Text`, `Speak Text`.
 - Whether arbitrary (non-palette) icon colours render exactly as specified.

@@ -84,10 +84,11 @@ share sheet or a copied link.
 
 **Known limitations**
 
-- The site name is dropped rather than used as MLA's container: the title is
-  split on `" | "` and only the first part kept. Using the second part needs Get
-  Item from List set to Last Item, whose encoding isn't captured yet.
-- Titles that separate with a dash rather than a pipe keep their suffix.
+- **A title with no `" | "` repeats itself as the container.** Splitting a title
+  like `Some Headline` yields one item, so first and last are the same and the
+  citation reads `"Some Headline." Some Headline, https://…`. Fixing it needs an
+  If action, whose encoding isn't captured yet.
+- Titles that separate with a dash rather than a pipe hit the same case.
 
 ---
 
