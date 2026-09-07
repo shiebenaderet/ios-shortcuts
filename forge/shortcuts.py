@@ -101,8 +101,8 @@ def cite_this_page():
     everything. Its input is passed explicitly: relying on the first action
     implicitly receiving Shortcut Input produced an empty chain.
     """
-    first, name, split, short, d_mla, d_us, group = (
-        uid(), uid(), uid(), uid(), uid(), uid(), uid())
+    first, name, nl, one_name, pipe, short, d_mla, d_us, group = (
+        uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid())
     url = r_out(first, "Item")
     title = r_out(short, "Item")
     mla_date = r_out(d_mla, "Formatted Date")
@@ -128,17 +128,26 @@ def cite_this_page():
         ]
 
     return [
+        # One item for the URL. Some share sheets offer both a Safari web page
+        # and a URL, which otherwise doubles everything.
         act("is.workflow.actions.getitemfromlist", UUID=first,
             WFInput=attach(r_input())),
-        act("is.workflow.actions.getitemname", UUID=name, WFInput=attach(url)),
-        # Most page titles append the site name: "Headline | Snopes.com".
-        # Splitting on " | " and keeping the first part drops it without
-        # needing a separate trim, since the spaces go with the separator.
-        act("is.workflow.actions.text.split", UUID=split,
-            WFInput=attach(r_out(name, "Name")),
+        # Name is read from the whole input, not the extracted item: the item
+        # that comes out is the bare URL, which has no name.
+        act("is.workflow.actions.getitemname", UUID=name,
+            WFInput=attach(r_input())),
+        # That yields one name per input item, newline separated -- take one.
+        act("is.workflow.actions.text.split", UUID=nl,
+            WFInput=attach(r_out(name, "Name"))),
+        act("is.workflow.actions.getitemfromlist", UUID=one_name,
+            WFInput=attach(r_out(nl, "Split Text"))),
+        # Titles usually append the site: "Headline | Snopes.com". Splitting on
+        # the spaced separator drops it without needing a trim.
+        act("is.workflow.actions.text.split", UUID=pipe,
+            WFInput=attach(r_out(one_name, "Item")),
             WFTextSeparator="Custom", WFTextCustomSeparator=" | "),
         act("is.workflow.actions.getitemfromlist", UUID=short,
-            WFInput=attach(r_out(split, "Split Text"))),
+            WFInput=attach(r_out(pipe, "Split Text"))),
         fmt(d_mla, "d MMMM yyyy"),
         fmt(d_us, "MMMM d, yyyy"),
         act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,
