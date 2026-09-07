@@ -3,3 +3,8 @@
 ._*
 .Spotlight-V100
 .Trashes
+
+# forge build intermediates
+forge/.build/
+__pycache__/
+*.pyc
