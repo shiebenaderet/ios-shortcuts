@@ -12,7 +12,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>F462E88E-A575-43C2-9907-8B3F6EC4B835</string>
+				<string>3F263B09-1ACC-4415-A6C2-2478FC5E05ED</string>
 				<key>WFTextActionText</key>
 				<dict>
 					<key>Value</key>
@@ -45,7 +45,7 @@
 						<key>OutputName</key>
 						<string>Text</string>
 						<key>OutputUUID</key>
-						<string>F462E88E-A575-43C2-9907-8B3F6EC4B835</string>
+						<string>3F263B09-1ACC-4415-A6C2-2478FC5E05ED</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>

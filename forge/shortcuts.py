@@ -12,9 +12,14 @@ Encoding rules learned the hard way, both silent failures:
     WFControlFlowMode 0 opens, 1 per case (with WFMenuItemTitle), 2 closes.
     The opening entry MUST carry WFMenuItems listing the titles -- without it
     the app shows its "One"/"Two" placeholders and ignores the case blocks.
-  * Split Text takes WFTextSeparator "Custom" plus WFTextCustomSeparator, but
-    referencing its output with OutputName "Split Text" yields nothing, so the
-    real name is still unknown and the action is unusable for now.
+  * Input parameter names are per-action, not conventional. Get Name and Get
+    Item from List take WFInput; Split Text takes "text"; Format Date takes
+    WFDate. A wrong key is ignored and the action silently emits nothing.
+  * There is no runtime "inherit the previous action's output". That is an
+    editor convenience which writes the parameter for you, so every action
+    authored here must name its input explicitly.
+  * Split Text also takes WFTextSeparator "Custom" plus WFTextCustomSeparator;
+    omitting both splits on new lines.
   * Get Item from List and Split Text default to First Item and New Lines,
     so neither needs parameters for those. An unparameterised Get Item from
     List placed first implicitly receives Shortcut Input.
@@ -103,9 +108,10 @@ def cite_this_page():
     everything. Its input is passed explicitly: relying on the first action
     implicitly receiving Shortcut Input produced an empty chain.
     """
-    first, name, d_mla, d_us, group = uid(), uid(), uid(), uid(), uid()
-    url = r_out(first, "Item")
-    title = r_out(name, "Name")
+    first, name, nl, one_name, pipe, short, d_mla, d_us, group = (
+        uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid(), uid())
+    url = r_out(first, "Item from List")
+    title = r_out(short, "Item from List")
     mla_date = r_out(d_mla, "Formatted Date")
     us_date = r_out(d_us, "Formatted Date")
 
@@ -133,10 +139,21 @@ def cite_this_page():
         # and a URL, which otherwise doubles it.
         act("is.workflow.actions.getitemfromlist", UUID=first,
             WFInput=attach(r_input())),
-        # Title comes straight from Get Name. Trimming the site suffix needs
-        # Split Text, whose output cannot currently be referenced -- see notes.
+        # Name is read from the whole input, not the extracted item, which is
+        # the bare URL and has no name. It yields one name per input item.
         act("is.workflow.actions.getitemname", UUID=name,
             WFInput=attach(r_input())),
+        act("is.workflow.actions.text.split", UUID=nl,
+            text=attach(r_out(name, "Name"))),
+        act("is.workflow.actions.getitemfromlist", UUID=one_name,
+            WFInput=attach(r_out(nl, "Split Text"))),
+        # Titles usually append the site: "Headline | Snopes.com". Splitting on
+        # the spaced separator drops it without needing a trim.
+        act("is.workflow.actions.text.split", UUID=pipe,
+            text=attach(r_out(one_name, "Item from List")),
+            WFTextSeparator="Custom", WFTextCustomSeparator=" | "),
+        act("is.workflow.actions.getitemfromlist", UUID=short,
+            WFInput=attach(r_out(pipe, "Split Text"))),
         fmt(d_mla, "d MMMM yyyy"),
         fmt(d_us, "MMMM d, yyyy"),
         act("is.workflow.actions.choosefrommenu", GroupingIdentifier=group,

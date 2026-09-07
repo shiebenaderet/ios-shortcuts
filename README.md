@@ -60,9 +60,8 @@ share sheet or a copied link.
 **Known limitations**
 
 - The site name is dropped rather than used as MLA's container: the title is
-  split on `" | "` and only the first part kept. Using the second part as the
-  container needs Get Item from List set to Last Item, whose encoding isn't
-  captured yet.
+  split on `" | "` and only the first part kept. Using the second part needs Get
+  Item from List set to Last Item, whose encoding isn't captured yet.
 - Titles that separate with a dash rather than a pipe keep their suffix.
 
 ---
@@ -108,6 +107,12 @@ a real Apple-written shortcut:
 - Attachments inside a text action's `attachmentsByRange` are **bare** dicts. The
   `{"Value": …, "WFSerializationType": "WFTextTokenAttachment"}` wrapper applies
   only when an entire parameter is one attachment.
+- **Input parameter names are per-action, not conventional.** Get Name and Get Item
+  from List take `WFInput`; Split Text takes `text`; Format Date takes `WFDate` as a
+  `WFTextTokenString`. A wrong key is ignored and the action emits nothing.
+- **There is no runtime "inherit the previous action's output."** That is an editor
+  convenience that writes the parameter for you, so every generated action must
+  name its input explicitly.
 - `WFWorkflowMinimumClientVersion` is a **feature gate**. Declare a version older
   than an action you use and that action is quietly skipped, passing an empty
   value downstream. Pin it to a value read from a genuine shortcut.

@@ -12,7 +12,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>03E79525-AD97-4114-8897-A49019F749E7</string>
+				<string>5468FEB8-A1A8-408A-B8F1-34A79FB03299</string>
 				<key>WFInput</key>
 				<dict>
 					<key>Value</key>
@@ -31,7 +31,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>E4B517C8-FF2F-40CA-A01A-26D875957197</string>
+				<string>CD214B0E-6A57-4BE3-8959-E7EFB90B9443</string>
 				<key>WFInput</key>
 				<dict>
 					<key>Value</key>
@@ -46,11 +46,107 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
+			<string>is.workflow.actions.text.split</string>
+			<key>WFWorkflowActionParameters</key>
+			<dict>
+				<key>UUID</key>
+				<string>0B0B69E8-7413-48B9-A50F-FE6CEC71B033</string>
+				<key>text</key>
+				<dict>
+					<key>Value</key>
+					<dict>
+						<key>OutputName</key>
+						<string>Name</string>
+						<key>OutputUUID</key>
+						<string>CD214B0E-6A57-4BE3-8959-E7EFB90B9443</string>
+						<key>Type</key>
+						<string>ActionOutput</string>
+					</dict>
+					<key>WFSerializationType</key>
+					<string>WFTextTokenAttachment</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>WFWorkflowActionIdentifier</key>
+			<string>is.workflow.actions.getitemfromlist</string>
+			<key>WFWorkflowActionParameters</key>
+			<dict>
+				<key>UUID</key>
+				<string>71EFD348-4FBC-49F4-B2B1-2D052C426854</string>
+				<key>WFInput</key>
+				<dict>
+					<key>Value</key>
+					<dict>
+						<key>OutputName</key>
+						<string>Split Text</string>
+						<key>OutputUUID</key>
+						<string>0B0B69E8-7413-48B9-A50F-FE6CEC71B033</string>
+						<key>Type</key>
+						<string>ActionOutput</string>
+					</dict>
+					<key>WFSerializationType</key>
+					<string>WFTextTokenAttachment</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>WFWorkflowActionIdentifier</key>
+			<string>is.workflow.actions.text.split</string>
+			<key>WFWorkflowActionParameters</key>
+			<dict>
+				<key>UUID</key>
+				<string>DEE43C6B-3E79-440D-8BB4-3DB20C138EFA</string>
+				<key>WFTextCustomSeparator</key>
+				<string> | </string>
+				<key>WFTextSeparator</key>
+				<string>Custom</string>
+				<key>text</key>
+				<dict>
+					<key>Value</key>
+					<dict>
+						<key>OutputName</key>
+						<string>Item from List</string>
+						<key>OutputUUID</key>
+						<string>71EFD348-4FBC-49F4-B2B1-2D052C426854</string>
+						<key>Type</key>
+						<string>ActionOutput</string>
+					</dict>
+					<key>WFSerializationType</key>
+					<string>WFTextTokenAttachment</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>WFWorkflowActionIdentifier</key>
+			<string>is.workflow.actions.getitemfromlist</string>
+			<key>WFWorkflowActionParameters</key>
+			<dict>
+				<key>UUID</key>
+				<string>B7C1AE7F-D086-4254-A9EE-DCC7296BD12E</string>
+				<key>WFInput</key>
+				<dict>
+					<key>Value</key>
+					<dict>
+						<key>OutputName</key>
+						<string>Split Text</string>
+						<key>OutputUUID</key>
+						<string>DEE43C6B-3E79-440D-8BB4-3DB20C138EFA</string>
+						<key>Type</key>
+						<string>ActionOutput</string>
+					</dict>
+					<key>WFSerializationType</key>
+					<string>WFTextTokenAttachment</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>WFWorkflowActionIdentifier</key>
 			<string>is.workflow.actions.format.date</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>85AEAF3D-CA81-4A51-931F-40B4B5997B03</string>
+				<string>7D7D6E3A-5F6A-4B01-A36D-03F6018D5470</string>
 				<key>WFDate</key>
 				<dict>
 					<key>Value</key>
@@ -81,7 +177,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>78F5FE30-30B8-4376-936F-527AD622F743</string>
+				<string>D3F1CAB7-D909-4277-95A0-1B16A33BD3E2</string>
 				<key>WFDate</key>
 				<dict>
 					<key>Value</key>
@@ -112,7 +208,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>FFB4ED5D-5F69-419B-BF3C-AB2801D31683</string>
+				<string>8B4689AF-0498-4AAE-B59B-5A9F8C84C3DC</string>
 				<key>WFControlFlowMode</key>
 				<integer>0</integer>
 				<key>WFMenuItems</key>
@@ -131,7 +227,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>FFB4ED5D-5F69-419B-BF3C-AB2801D31683</string>
+				<string>8B4689AF-0498-4AAE-B59B-5A9F8C84C3DC</string>
 				<key>WFControlFlowMode</key>
 				<integer>1</integer>
 				<key>WFMenuItemTitle</key>
@@ -144,7 +240,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>9503EFEF-48EC-43E4-B991-65F21F47BE11</string>
+				<string>CB98C931-8AFB-4264-A5F5-E3B9906E5FB4</string>
 				<key>WFTextActionText</key>
 				<dict>
 					<key>Value</key>
@@ -154,9 +250,9 @@
 							<key>{1, 1}</key>
 							<dict>
 								<key>OutputName</key>
-								<string>Name</string>
+								<string>Item from List</string>
 								<key>OutputUUID</key>
-								<string>E4B517C8-FF2F-40CA-A01A-26D875957197</string>
+								<string>B7C1AE7F-D086-4254-A9EE-DCC7296BD12E</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -165,16 +261,16 @@
 								<key>OutputName</key>
 								<string>Formatted Date</string>
 								<key>OutputUUID</key>
-								<string>85AEAF3D-CA81-4A51-931F-40B4B5997B03</string>
+								<string>7D7D6E3A-5F6A-4B01-A36D-03F6018D5470</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
 							<key>{5, 1}</key>
 							<dict>
 								<key>OutputName</key>
-								<string>Item</string>
+								<string>Item from List</string>
 								<key>OutputUUID</key>
-								<string>03E79525-AD97-4114-8897-A49019F749E7</string>
+								<string>5468FEB8-A1A8-408A-B8F1-34A79FB03299</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -199,7 +295,7 @@
 						<key>OutputName</key>
 						<string>Text</string>
 						<key>OutputUUID</key>
-						<string>9503EFEF-48EC-43E4-B991-65F21F47BE11</string>
+						<string>CB98C931-8AFB-4264-A5F5-E3B9906E5FB4</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -224,7 +320,7 @@
 								<key>OutputName</key>
 								<string>Text</string>
 								<key>OutputUUID</key>
-								<string>9503EFEF-48EC-43E4-B991-65F21F47BE11</string>
+								<string>CB98C931-8AFB-4264-A5F5-E3B9906E5FB4</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -243,7 +339,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>FFB4ED5D-5F69-419B-BF3C-AB2801D31683</string>
+				<string>8B4689AF-0498-4AAE-B59B-5A9F8C84C3DC</string>
 				<key>WFControlFlowMode</key>
 				<integer>1</integer>
 				<key>WFMenuItemTitle</key>
@@ -256,7 +352,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>AE029A19-1AF5-44AF-960B-444092777B9C</string>
+				<string>3D9CB166-C6F0-4FF4-85A2-678F773A69B3</string>
 				<key>WFTextActionText</key>
 				<dict>
 					<key>Value</key>
@@ -266,9 +362,9 @@
 							<key>{0, 1}</key>
 							<dict>
 								<key>OutputName</key>
-								<string>Name</string>
+								<string>Item from List</string>
 								<key>OutputUUID</key>
-								<string>E4B517C8-FF2F-40CA-A01A-26D875957197</string>
+								<string>B7C1AE7F-D086-4254-A9EE-DCC7296BD12E</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -277,16 +373,16 @@
 								<key>OutputName</key>
 								<string>Formatted Date</string>
 								<key>OutputUUID</key>
-								<string>78F5FE30-30B8-4376-936F-527AD622F743</string>
+								<string>D3F1CAB7-D909-4277-95A0-1B16A33BD3E2</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
 							<key>{21, 1}</key>
 							<dict>
 								<key>OutputName</key>
-								<string>Item</string>
+								<string>Item from List</string>
 								<key>OutputUUID</key>
-								<string>03E79525-AD97-4114-8897-A49019F749E7</string>
+								<string>5468FEB8-A1A8-408A-B8F1-34A79FB03299</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -311,7 +407,7 @@
 						<key>OutputName</key>
 						<string>Text</string>
 						<key>OutputUUID</key>
-						<string>AE029A19-1AF5-44AF-960B-444092777B9C</string>
+						<string>3D9CB166-C6F0-4FF4-85A2-678F773A69B3</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -336,7 +432,7 @@
 								<key>OutputName</key>
 								<string>Text</string>
 								<key>OutputUUID</key>
-								<string>AE029A19-1AF5-44AF-960B-444092777B9C</string>
+								<string>3D9CB166-C6F0-4FF4-85A2-678F773A69B3</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -355,7 +451,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>FFB4ED5D-5F69-419B-BF3C-AB2801D31683</string>
+				<string>8B4689AF-0498-4AAE-B59B-5A9F8C84C3DC</string>
 				<key>WFControlFlowMode</key>
 				<integer>1</integer>
 				<key>WFMenuItemTitle</key>
@@ -368,7 +464,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>053CD32A-6AE5-4080-844C-AA618C9ED7A1</string>
+				<string>20622FD4-2C4D-46DC-BA09-B5551C801143</string>
 				<key>WFTextActionText</key>
 				<dict>
 					<key>Value</key>
@@ -378,9 +474,9 @@
 							<key>{1, 1}</key>
 							<dict>
 								<key>OutputName</key>
-								<string>Name</string>
+								<string>Item from List</string>
 								<key>OutputUUID</key>
-								<string>E4B517C8-FF2F-40CA-A01A-26D875957197</string>
+								<string>B7C1AE7F-D086-4254-A9EE-DCC7296BD12E</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -389,16 +485,16 @@
 								<key>OutputName</key>
 								<string>Formatted Date</string>
 								<key>OutputUUID</key>
-								<string>78F5FE30-30B8-4376-936F-527AD622F743</string>
+								<string>D3F1CAB7-D909-4277-95A0-1B16A33BD3E2</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
 							<key>{17, 1}</key>
 							<dict>
 								<key>OutputName</key>
-								<string>Item</string>
+								<string>Item from List</string>
 								<key>OutputUUID</key>
-								<string>03E79525-AD97-4114-8897-A49019F749E7</string>
+								<string>5468FEB8-A1A8-408A-B8F1-34A79FB03299</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -423,7 +519,7 @@
 						<key>OutputName</key>
 						<string>Text</string>
 						<key>OutputUUID</key>
-						<string>053CD32A-6AE5-4080-844C-AA618C9ED7A1</string>
+						<string>20622FD4-2C4D-46DC-BA09-B5551C801143</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -448,7 +544,7 @@
 								<key>OutputName</key>
 								<string>Text</string>
 								<key>OutputUUID</key>
-								<string>053CD32A-6AE5-4080-844C-AA618C9ED7A1</string>
+								<string>20622FD4-2C4D-46DC-BA09-B5551C801143</string>
 								<key>Type</key>
 								<string>ActionOutput</string>
 							</dict>
@@ -467,9 +563,9 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>FFB4ED5D-5F69-419B-BF3C-AB2801D31683</string>
+				<string>8B4689AF-0498-4AAE-B59B-5A9F8C84C3DC</string>
 				<key>UUID</key>
-				<string>88F2B296-1ECD-4CE6-982A-23BD8C3D26EC</string>
+				<string>0910D61F-8C0C-4574-8745-0D81AD4AC845</string>
 				<key>WFControlFlowMode</key>
 				<integer>2</integer>
 			</dict>
