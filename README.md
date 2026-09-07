@@ -126,28 +126,18 @@ no name field of its own.
 
 ### Encoding notes
 
-Two mistakes that fail *silently*, both found by diffing generated output against
-a real Apple-written shortcut:
+The `.shortcut` plist format fails **silently** — a wrong key, wrong wrapper or
+out-of-range value yields an empty result rather than an error, and `shortcuts
+sign` will sign a plist Shortcuts cannot load.
 
-- Attachments inside a text action's `attachmentsByRange` are **bare** dicts. The
-  `{"Value": …, "WFSerializationType": "WFTextTokenAttachment"}` wrapper applies
-  only when an entire parameter is one attachment.
-- **Input parameter names are per-action, not conventional.** Get Name and Get Item
-  from List take `WFInput`; Split Text takes `text`; Format Date takes `WFDate` as a
-  `WFTextTokenString`. A wrong key is ignored and the action emits nothing.
-- **There is no runtime "inherit the previous action's output."** That is an editor
-  convenience that writes the parameter for you, so every generated action must
-  name its input explicitly.
-- `WFWorkflowMinimumClientVersion` is a **feature gate**. Declare a version older
-  than an action you use and that action is quietly skipped, passing an empty
-  value downstream. Pin it to a value read from a genuine shortcut.
-
-`Format Date` with `WFDateFormatStyle: "Custom"` returns empty and is currently
-avoided; raw date tokens work.
+**[AGENTS.md](AGENTS.md) is the reference**: verified actions and their parameter
+keys, the three serialization shapes, the icon encoding, and the capture workflow
+for figuring out anything new. Read it before adding a shortcut.
 
 ## Repo files
 
 - `index.html` — the install page, served by GitHub Pages from `main` at the repo root
+- `AGENTS.md` — the `.shortcut` format reference: verified actions, encoding rules
 - `forge/` — shortcut definitions, the build script, and a glyph-name table
 - `dist/` — generated signed `.shortcut` files (build output, but committed so the page can serve them)
 - `icons/` — generated per-shortcut install-page icons, drawn to match each
