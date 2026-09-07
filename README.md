@@ -14,6 +14,8 @@ tap an Install link on an iPhone and Shortcuts opens with an Add preview.
 | Shortcut | What it does | Install |
 |---|---|---|
 | [View Archived](#view-archived) | Opens the newest archive.today snapshot of any webpage | [Install](dist/View%20Archived.shortcut) |
+| [Save to Wayback](#save-to-wayback) | Archives the current page in the Wayback Machine | [Install](dist/Save%20to%20Wayback.shortcut) |
+| [Plain Text View](#plain-text-view) | Opens the page as clean text, stripped of nav and ads | [Install](dist/Plain%20Text%20View.shortcut) |
 | [Cite This Page](#cite-this-page) | Copies an MLA, APA or Chicago citation for the current page | [Install](dist/Cite%20This%20Page.shortcut) |
 <!-- CATALOG:END -->
 
@@ -41,6 +43,29 @@ https://archive.ph/newest/<your URL>
 3. **Open URLs** action.
 
 **Variant** — Wayback Machine version: same shortcut with `https://web.archive.org/web/` as the prefix.
+
+---
+
+## Save to Wayback
+
+Archives the current page in the Wayback Machine, from the share sheet or a
+copied link. The write counterpart to View Archived: preserve a source *before*
+it disappears rather than hoping someone already did.
+
+**How it works** — opens `https://web.archive.org/save/` plus the page URL.
+
+---
+
+## Plain Text View
+
+Opens the page as clean text with nav, ads and chrome stripped, via
+[r.jina.ai](https://r.jina.ai). Useful for pasting into a handout or reading
+without the furniture.
+
+**How it works** — opens `https://r.jina.ai/` plus the page URL.
+
+**Note** — this routes the URL through a third-party service. Fine for public
+pages; don't use it on anything private.
 
 ---
 
@@ -123,7 +148,7 @@ avoided; raw date tokens work.
 ## Repo files
 
 - `index.html` — the install page, served by GitHub Pages from `main` at the repo root
-- `forge/` — shortcut definitions and the build script
+- `forge/` — shortcut definitions, the build script, and a glyph-name table
 - `dist/` — generated signed `.shortcut` files (build output, but committed so the page can serve them)
 - `icon-1024.png` / `icon.svg` — catalog icon, also usable as a custom Home Screen icon
 

@@ -26,18 +26,18 @@ Encoding rules learned the hard way, both silent failures:
 """
 import uuid
 
+from glyphs import GLYPHS
+
 OBJ = "￼"  # object-replacement char an attachment binds to
 
 # icon_color is RGBA packed into a 32-bit int, so any colour is computable:
 #   rgba("#E8A62B") -> 3903204351
-# icon_glyph is an opaque enum with no public table -- each value has to be
-# captured by setting it in the app and reading it back off a shared record.
+# icon_glyph is an opaque enum; names come from the vendored table in glyphs.py.
 # The field is a SIGNED 32-bit int. A value above 2**31 makes Shortcuts fail to
 # parse the icon and silently discard every action, importing an empty shortcut.
 RED = -12365313             # #FF4351, captured
 BLUE = 463140863            # #1B9AF7, captured
 DEFAULT_GLYPH = 61440       # 0xF000, the generic default
-GLYPH_CAPTURED = 61699      # 0xF103, captured -- awaiting a name
 
 
 def rgba(hex_colour):
@@ -91,13 +91,23 @@ def act(identifier, **params):
 
 # ----------------------------------------------------------------------
 
-def view_archived():
-    u = uid()
-    return [
-        act("is.workflow.actions.gettext", UUID=u,
-            WFTextActionText=text_token(["https://archive.ph/newest/", r_input()])),
-        act("is.workflow.actions.openurl", WFInput=attach(r_out(u, "Text"))),
-    ]
+def open_with_prefix(prefix):
+    """Collapse the input to one item, prepend a prefix, open the result.
+
+    Get Item from List matters: some share sheets hand over both a Safari web
+    page and a URL, and stringifying both would build a URL with two addresses
+    glued together by a newline.
+    """
+    def actions():
+        first, text = uid(), uid()
+        return [
+            act("is.workflow.actions.getitemfromlist", UUID=first,
+                WFInput=attach(r_input())),
+            act("is.workflow.actions.gettext", UUID=text,
+                WFTextActionText=text_token([prefix, r_out(first, "Item from List")])),
+            act("is.workflow.actions.openurl", WFInput=attach(r_out(text, "Text"))),
+        ]
+    return actions
 
 
 def cite_this_page():
@@ -172,12 +182,22 @@ WEB = ("WFSafariWebPageContentItem", "WFURLContentItem")
 SHORTCUTS = {
     "View Archived": {
         "description": "Opens the newest archive.today snapshot of any webpage",
-        "color": AMBER, "glyph": GLYPH_CAPTURED, "input_types": WEB,
-        "actions": view_archived,
+        "color": AMBER, "glyph": GLYPHS["archive"], "input_types": WEB,
+        "actions": open_with_prefix("https://archive.ph/newest/"),
+    },
+    "Save to Wayback": {
+        "description": "Archives the current page in the Wayback Machine",
+        "color": rgba("#3EA34B"), "glyph": GLYPHS["uploadArrow"], "input_types": WEB,
+        "actions": open_with_prefix("https://web.archive.org/save/"),
+    },
+    "Plain Text View": {
+        "description": "Opens the page as clean text, stripped of nav and ads",
+        "color": rgba("#8B5CF6"), "glyph": GLYPHS["newspaper"], "input_types": WEB,
+        "actions": open_with_prefix("https://r.jina.ai/"),
     },
     "Cite This Page": {
         "description": "Copies an MLA, APA or Chicago citation for the current page",
-        "color": BLUE, "glyph": GLYPH_CAPTURED, "input_types": WEB,
+        "color": BLUE, "glyph": GLYPHS["doubleQuote"], "input_types": WEB,
         "actions": cite_this_page,
     },
 }
